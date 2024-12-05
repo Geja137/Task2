@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #000000;
+            color: #fff;
+            padding: 1rem;
+            text-align: center;
+        }
+        h1 {
+            margin: 0;
+        }
+        .container {
+            margin: 20px auto;
+            padding: 20px;
+            max-width: 90%;
+            background: #fff;
+            box-shadow: 0 2px 5px rgba(190, 12, 12, 0.1);
+            border-radius: 8px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 12px;
+            text-align: center;
+        }
+        th {
+            background-color: #343a40;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        .btn {
+            padding: 6px 12px;
+            margin: 5px;
+            text-decoration: none;
+            color: rgb(234, 20, 20);
+            
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Welcome to the Admin Dashboard</h1>
+    </header>
+    <div class="container">
+        <h2>Complaints for Your Department</h2>
+        {% if complaints %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Category</th>
+                        <th>Priority</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for complaint in complaints %}
+                        <tr>
+                            <td>{{ complaint.title }}</td>
+                            <td>{{ complaint.description }}</td>
+                            <td>{{ complaint.category.name }}</td>
+                            <td>{{ complaint.priority }}</td>
+                            <td>{{ complaint.status }}</td>
+                            <td>
+                                <a href="{% url 'view_complaint' complaint.id %}" class="btn btn-view">View</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No complaints found for your department.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

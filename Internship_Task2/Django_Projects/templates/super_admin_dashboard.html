@@ -1,0 +1,169 @@
+{% block content %}
+<body>
+<div id="super_admin">
+
+    <h1>Super Admin Dashboard</h1>
+
+</div>
+
+<div class="dashboard">
+
+    <section class="manage-section">
+        <h2>Manage Departments</h2>
+        <form method="POST" class="form-inline">
+            {% csrf_token %}
+            <input type="text" name="department_name" placeholder="Add Department" required>
+            <button type="submit" name="add_department">Add</button>
+        </form>
+        <ul>
+            {% for department in departments %}
+            <li>
+                {{ department.name }}
+                <form method="POST" style="display:inline;">
+                    {% csrf_token %}
+                    <input type="hidden" name="department_id" value="{{ department.id }}">
+                    <button type="submit" name="delete_department" class="delete-button">Delete</button>
+                </form>
+            </li>
+            {% endfor %}
+        </ul>
+    </section>
+
+    <!-- Manage Categories Section -->
+    <section class="manage-section">
+        <h2>Manage Categories</h2>
+        <form method="POST" class="form-inline">
+            {% csrf_token %}
+            <input type="text" name="category_name" placeholder="Add Category" required>
+            <button type="submit" name="add_category">Add</button>
+        </form>
+        <ul>
+            {% for category in categories %}
+            <li>
+                {{ category.name }}
+                <form method="POST" style="display:inline;">
+                    {% csrf_token %}
+                    <input type="hidden" name="category_id" value="{{ category.id }}">
+                    <button type="submit" name="delete_category" class="delete-button">Delete</button>
+                </form>
+            </li>
+            {% endfor %}
+        </ul>
+    </section>
+</div>
+<section class="complaints-section">
+    <h2>All Complaints</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Category</th>
+                <th>Priority</th>
+                <th>Status</th>
+                <th>Department</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for complaint in complaints %}
+            <tr>
+                <td>{{ complaint.title }}</td>
+                <td>{{ complaint.category.name }}</td>
+                <td>{{ complaint.priority }}</td>
+                <td>{{ complaint.status }}</td>
+                <td>{{ complaint.department.name }}</td>
+                <td>
+                    <a href="{% url 'view_complaint' complaint.id %}" class="view-button">View</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+
+
+<style>
+    
+    .dashboard {
+        max-width: 800px;
+        margin: auto;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+    }
+    h1, h2 {
+        text-align: center;
+        color: #333;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+    th, td {
+        border: 1px solid #ccc;
+        padding: 10px;
+        text-align: left;
+    }
+    th {
+        background-color: #252424;
+        color: white;
+    }
+    tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+    .form-inline {
+        display: flex;
+        margin-bottom: 10px;
+    }
+    .form-inline input {
+        flex: 1;
+        padding: 8px;
+        margin-right: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+    .form-inline button {
+        padding: 8px 12px;
+        background-color: #4e5052;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    .form-inline button:hover {
+        background-color: #000000;
+    }
+    ul {
+        list-style-type: none;
+        padding: 0;
+    }
+    li {
+        margin-bottom: 10px;
+        display: flex;
+        justify-content: space-between;
+    }
+    .delete-button {
+        background-color: #dc3545;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        padding: 4px 8px;
+    }
+    .delete-button:hover {
+        background-color: #a71d2a;
+    }
+    .manage-section {
+        margin-bottom: 20px;
+    }
+    a{
+        text-align: center;
+        text-decoration: none;
+        color: red;
+    }
+    
+</style>
+</body>
+{% endblock %}

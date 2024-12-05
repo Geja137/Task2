@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit Complaint{% endblock %}
+
+{% block content %}
+    <style>
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            background-color: #f9f9f9;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .form-group textarea {
+            resize: none;
+            height: 100px;
+        }
+
+        .form-group input[type="file"] {
+            padding: 0;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #1c1d1e;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #070707;
+        }
+
+        .read-only {
+            background-color: #e0e0e0;
+            pointer-events: none;
+        }
+
+        .disabled-message {
+            text-align: center;
+            color: gray;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+    </style>
+
+<div class="container">
+    <h2>Edit Complaint</h2>
+
+    {% if complaint.status|lower == "verified" %}
+        <p class="disabled-message">
+            This complaint is verified and cannot be edited or deleted.
+        </p>
+    {% endif %}
+
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="title">Complaint Title</label>
+            <input type="text" name="title" id="title" 
+                   value="{{ complaint.title }}" 
+                   {% if complaint.status|lower == "verified" %}class="read-only" disabled{% endif %} required>
+        </div>
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea name="description" id="description" 
+                      {% if complaint.status|lower == "verified" %}class="read-only" disabled{% endif %} required>{{ complaint.description }}</textarea>
+        </div>
+        <div class="form-group">
+            <label for="attachment">Attachment</label>
+            <input type="file" name="attachment" id="attachment" 
+                   {% if complaint.status|lower == "verified" %}disabled{% endif %}>
+            {% if complaint.attachment %}
+                <p>Current Attachment: <a href="{{ complaint.attachment.url }}" target="_blank">View</a></p>
+            {% endif %}
+        </div>
+        {% if complaint.status|lower != "verified" %}
+            <button type="submit">Update Complaint</button>
+        {% endif %}
+    </form>
+</div>
+{% endblock %}

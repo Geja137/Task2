@@ -1,0 +1,81 @@
+<!Doctype html>
+<html>
+    <head>
+        <title>Admin Login</title>
+        <style>
+             body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+        .form {
+            text-align: center;
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+        .submit{
+            display: block;
+            width: 80%;
+            padding: 10px;
+            margin: 10px auto;
+            font-size: 16px;
+            color: #333;
+            background-color: #f9f9f9;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .submit:hover{
+            background-color:#e0e0e0 ;
+        }
+        .tb{
+                width: 250px;
+                height: 25px;
+                font-size: medium;
+        }
+        .d{
+            text-align: center;
+        }
+        .links {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .admin-login-link {
+            font-size: 16px;
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .admin-login-link:hover {
+            text-decoration: underline;
+        }
+        </style>
+    </head>
+    <body>
+        {% block content %}
+        <div class="d">
+            <form action="" class="form" autocomplete="off" method="POST">
+                {% csrf_token %}
+                <h1>User Login</h1>
+                <input type="text" class="tb" name="logname" placeholder="Username"><br><br>
+                <input type="password" class="tb" name="logpwd" placeholder="Password"><br><br>
+                {% if message %}
+                    <div style="color: red;">{{ message }}</div>
+                {% endif %}
+                <input type="submit" value="submit" class="submit"><br>
+            </form>
+            <p>Don't have an account? <a href="{% url 'signin' %} " class="admin-login-link">signup</a></p>
+            
+        </div>
+        {% endblock %}
+    </body>
+</html>

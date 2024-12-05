@@ -1,0 +1,63 @@
+{% block content %}
+<body>
+<div class="view-complaint">
+    <h1>Complaint Details</h1>
+    <p><strong>Title:</strong> {{ complaint.title }}</p>
+    <p><strong>Description:</strong> {{ complaint.description }}</p>
+    <p><strong>Category:</strong> {{ complaint.category.name }}</p>
+    <p><strong>Priority:</strong> {{ complaint.priority }}</p>
+    <p><strong>Status:</strong> {{ complaint.status }}</p>
+    <p><strong>Department:</strong> {{ complaint.department.name }}</p>
+    <p><strong> submitted by:</strong> {{ submitted_by.Name }}</p>
+
+    {% if complaint.attachment %}
+    <p><strong>Attachment:</strong> <a href="{{ complaint.attachment.url }}" target="_blank">View Attachment</a></p>
+    {% endif %}
+
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit" class="status-button">Mark as Verified</button>
+    </form>
+</div>
+
+<style>
+    .view-complaint {
+        max-width: 600px;
+        margin: auto;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+    }
+    h1 {
+        text-align: center;
+    }
+    p {
+        margin: 10px 0;
+    }
+    .status-button {
+        display: block;
+        margin: 20px auto;
+        padding: 10px 20px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    .status-button:hover {
+        background-color: #45a049;
+    }
+    .back-button {
+        display: block;
+        text-align: center;
+        margin-top: 10px;
+        color: #333;
+        text-decoration: none;
+    }
+    .back-button:hover {
+        text-decoration: underline;
+    }
+</style>
+</body>
+{% endblock %}
